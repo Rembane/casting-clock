@@ -4,19 +4,41 @@
 <link rel="stylesheet" type="text/css" href="style.css" />
 <script>
 function startTime() {
-    var today = new Date();
-    var h = today.getHours();
-    var m = today.getMinutes();
-    var s = today.getSeconds();
-    m = checkTime(m);
-    s = checkTime(s);
+    var m = window.location.href.match(/fake_now=(\d+)/);
+    if(m) {
+        var now = new Date(m[1]*1);
+    } else {
+        var now = new Date();
+    }
+
+    var h = now.getHours();
+    var m = now.getMinutes();
+    var s = now.getSeconds();
+    markNow(h, m);
     document.getElementById('txt').innerHTML =
-    h + ":" + m + ":" + s;
+    checkTime(h) + ":" + checkTime(m) + ":" + checkTime(s);
     var t = setTimeout(startTime, 500);
 }
 function checkTime(i) {
     if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
     return i;
+}
+function markNow(hours, minutes) {
+    // Markerar var nu är i tabellen.
+    var e = document.querySelector('.active');
+    if(e) {
+        e.className = '';
+    }
+    var xs = document.querySelectorAll('td');
+    for(var i=0; i<xs.length; i++) {
+        var m = xs[i].innerHTML.match(/(\d{2})\.(\d{2})/);
+        if(m) {
+            if(hours == m[1]*1 && minutes >= m[2]*1) {
+                xs[i].parentNode.className = 'active';
+                break
+            }
+        }
+    }
 }
 </script>
 </head>
@@ -34,7 +56,7 @@ function checkTime(i) {
     <td>Punkt 1</td>
     <td>10.00</td> 
   </tr>
-    <tr class="active">
+    <tr>
     <td>Punkt 2</td>
     <td>11.00</td> 
   </tr>
