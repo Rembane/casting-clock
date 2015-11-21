@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script>
+function startTime() {
+    var today = new Date();
+    var h = today.getHours();
+    var m = today.getMinutes();
+    var s = today.getSeconds();
+    m = checkTime(m);
+    s = checkTime(s);
+    document.getElementById('txt').innerHTML =
+    h + ":" + m + ":" + s;
+    var t = setTimeout(startTime, 500);
+}
+function checkTime(i) {
+    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+    return i;
+}
+</script>
+</head>
+
+<body onload="startTime()">
+
+<div id="txt"></div>
+<div id="program">
+<table style="width:95%">
+  <tr>
+    <td><b>Programpunkt<b/></td>
+    <td><b>Klockslag</b></td> 
+  </tr>
+  <tr>
+    <td>Punkt 1</td>
+    <td>10.00</td> 
+  </tr>
+    <tr class="active">
+    <td>Punkt 2</td>
+    <td>11.00</td> 
+  </tr>
+    <tr>
+    <td>Punkt 3</td>
+    <td>14.00</td> 
+  </tr>
+    <tr>
+    <td>Punkt 4</td>
+    <td>15.00</td> 
+  </tr>
+    <tr>
+    <td>Punkt 5</td>
+    <td>16.00</td> 
+  </tr>
+    <tr>
+    <td>Punkt 6</td>
+    <td>18.00</td> 
+  </tr>
+    <tr>
+    <td>Punkt 7</td>
+    <td>19.00</td> 
+  </tr>
+    <tr>
+    <td>Punkt 8</td>
+    <td>20.35</td> 
+  </tr>
+</table>
+</div>
+
+</body>
+</html>
