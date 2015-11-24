@@ -4,41 +4,45 @@
 <link rel="stylesheet" type="text/css" href="style.css" />
 <script>
 function startTime() {
+    "use strict";
     var m = window.location.href.match(/fake_now=(\d+)/);
     if(m) {
         var now = new Date(m[1]*1);
     } else {
         var now = new Date();
     }
-
-    var h = now.getHours();
-    var m = now.getMinutes();
-    var s = now.getSeconds();
-    markNow(h, m);
+    markNow(now);
     document.getElementById('txt').innerHTML =
-    checkTime(h) + ":" + checkTime(m) + ":" + checkTime(s);
-    var t = setTimeout(startTime, 500);
+    checkTime(now.getHours()) + ":" + checkTime(now.getMinutes()) + ":" + checkTime(now.getSeconds());
+    setTimeout(startTime, 500);
 }
 function checkTime(i) {
     if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
     return i;
 }
-function markNow(hours, minutes) {
+function markNow(now) {
     // Markerar var nu är i tabellen.
     var e = document.querySelector('.active');
     if(e) {
         e.className = '';
     }
     var xs = document.querySelectorAll('td');
+    var selected = [];
     for(var i=0; i<xs.length; i++) {
         var m = xs[i].innerHTML.match(/(\d{2})\.(\d{2})/);
         if(m) {
-            if(hours == m[1]*1 && minutes >= m[2]*1) {
-                xs[i].parentNode.className = 'active';
-                break
+            // Klona tiden.
+            var rowDate = new Date(now.getTime());
+            rowDate.setHours(m[1]*1);
+            rowDate.setMinutes(m[2]*1);
+            if(now >= rowDate) {
+                selected.push(xs[i].parentNode);
+            } else {
+                break;
             }
         }
     }
+    selected[selected.length-1].className = 'active';
 }
 </script>
 </head>
@@ -51,6 +55,10 @@ function markNow(hours, minutes) {
   <tr>
     <td><b>Programpunkt<b/></td>
     <td><b>Klockslag</b></td> 
+  </tr>
+  <tr>
+    <td>Punkt 0</td>
+    <td>08.00</td> 
   </tr>
   <tr>
     <td>Punkt 1</td>
